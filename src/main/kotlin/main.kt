@@ -1,13 +1,26 @@
-fun main(){
-    val nikusutaHiyashi = Ramen("うまい", "ﾁｮｯﾄﾀｶｲ", "満足/多い")
-    nikusutaHiyashi.detail()
-}
+package com.practice
 
-class Ramen(private var taste: String, private var price: String, private var volume: String){
-    fun detail(){
-        println(taste)
-        println(price)
-        println(volume)
+fun main(){
+    val data = RamenData()
+    data.create()
+    for (detail in data.ramenList){
+        println("名前: ${detail.name}")
     }
 }
 
+data class Ramen(var name:String, var taste: String,var price: String,var volume: String)
+
+class RamenData{
+    var ramenList = mutableListOf<Ramen>()
+    fun create(){
+        val name: String = getText("ラーメンの名前は?")
+        val taste: String = getText("味は?")
+        val price: String = getText("値段は?")
+        val volume: String = getText("量は?")
+        ramenList.add(Ramen(name, taste, price, volume))
+    }
+    private fun getText(showText: String? = null):String{
+        print("$showText \n>>>")
+        return readLine().let { if(it.isNullOrBlank()) getText() else it }
+    }
+}
